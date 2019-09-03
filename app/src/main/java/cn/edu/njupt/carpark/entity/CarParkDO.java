@@ -1,4 +1,4 @@
-package cn.edu.njupt.carpark.bean;
+package cn.edu.njupt.carpark.entity;
 
 import org.litepal.crud.LitePalSupport;
 

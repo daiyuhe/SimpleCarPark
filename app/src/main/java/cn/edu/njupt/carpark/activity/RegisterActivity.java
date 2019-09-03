@@ -33,7 +33,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         CarUser=CarUserEditText.getText().toString();
-        Intent intent = new Intent(RegisterActivity.this, ChooseActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, ChargePolicyActivity.class);
         intent.putExtra("CarNum", CarNum);
         intent.putExtra("carUser", CarUser);
         startActivity(intent);

@@ -5,10 +5,27 @@ import org.litepal.LitePal;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.edu.njupt.carpark.bean.CarParkDO;
+import cn.edu.njupt.carpark.entity.CarParkDO;
 
 
 public class GarageRelationDao {
+    private volatile static GarageRelationDao instance;
+
+    private GarageRelationDao() {
+    }
+
+    public static GarageRelationDao getInstance() {
+        // check 1
+        if (null == instance) {
+            synchronized (UserDao.class) {
+                // check 2
+                if (null == instance) {
+                    instance = new GarageRelationDao();
+                }
+            }
+        }
+        return instance;
+    }
 
     /**
      * 获取所有的车库号

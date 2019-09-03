@@ -1,4 +1,4 @@
-package cn.edu.njupt.carpark.util;
+package cn.edu.njupt.carpark.utils;
 
 import com.alibaba.fastjson.JSONObject;
 

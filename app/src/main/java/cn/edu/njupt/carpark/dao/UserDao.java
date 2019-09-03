@@ -3,22 +3,22 @@ package cn.edu.njupt.carpark.dao;
 
 import org.litepal.LitePal;
 
-import cn.edu.njupt.carpark.bean.CarDO;
+import cn.edu.njupt.carpark.entity.CarDO;
 
 
-public class UserDaoImpl {
-    private volatile static UserDaoImpl instance;
+public class UserDao {
+    private volatile static UserDao instance;
 
-    private UserDaoImpl() {
+    private UserDao() {
     }
 
-    public static UserDaoImpl getInstance() {
+    public static UserDao getInstance() {
         // check 1
         if (null == instance) {
-            synchronized (UserDaoImpl.class) {
+            synchronized (UserDao.class) {
                 // check 2
                 if (null == instance) {
-                    instance = new UserDaoImpl();
+                    instance = new UserDao();
                 }
             }
         }

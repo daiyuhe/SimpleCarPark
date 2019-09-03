@@ -9,9 +9,9 @@ import android.widget.TextView;
 
 import cn.edu.njupt.carpark.MainActivity;
 import cn.edu.njupt.carpark.R;
-import cn.edu.njupt.carpark.bean.CarDO;
-import cn.edu.njupt.carpark.dao.GarageRelationDao;
-import cn.edu.njupt.carpark.service.DistributionGarageIdService;
+import cn.edu.njupt.carpark.entity.CarDO;
+import cn.edu.njupt.carpark.service.ParkNumberService;
+import cn.edu.njupt.carpark.service.CarParkService;
 
 
 public class LeaveActivity extends AppCompatActivity implements View.OnClickListener {
@@ -64,12 +64,12 @@ public class LeaveActivity extends AppCompatActivity implements View.OnClickList
 
     // 出库 删除数据库相关信息
     private void leave(String CarNum) {
-        GarageRelationDao garageRelationDao = new GarageRelationDao();
-        DistributionGarageIdService distributionGarageIdService = new DistributionGarageIdService();
+        ParkNumberService parkNumberService = ParkNumberService.getInstance();
+        CarParkService carParkService = CarParkService.getInstance();
         //删除关联表相关信息
-        garageRelationDao.deleteGarageRelation(CarNum);
+        carParkService.deleteGarageRelation(CarNum);
         //维护set集合
-        distributionGarageIdService.outGarageId(garageId);
+        parkNumberService.outGarageId(garageId);
 
     }
 

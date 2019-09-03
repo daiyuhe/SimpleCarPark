@@ -8,26 +8,26 @@ import android.widget.Button;
 
 import cn.edu.njupt.carpark.MainActivity;
 import cn.edu.njupt.carpark.R;
-import cn.edu.njupt.carpark.service.DistributionGarageIdService;
-import cn.edu.njupt.carpark.service.GarageRelationService;
+import cn.edu.njupt.carpark.service.ParkNumberService;
+import cn.edu.njupt.carpark.service.CarParkService;
 import cn.edu.njupt.carpark.service.UserService;
 
 
-public class ChooseActivity extends AppCompatActivity implements View.OnClickListener {
+public class ChargePolicyActivity extends AppCompatActivity implements View.OnClickListener {
     private String CarNum;      //车牌
     private String carUser;     //车主
     private Button MonthBt;
     private Button HourBt;
 
-    private UserService userService = new UserService();
-    private static GarageRelationService garageRelationService = new GarageRelationService();
+    private UserService userService = UserService.getInstance();
+    private CarParkService carParkService = CarParkService.getInstance();
 
-    private static DistributionGarageIdService distributionGarageIdService = new DistributionGarageIdService();
+    private ParkNumberService parkNumberService = ParkNumberService.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_choose);
+        setContentView(R.layout.activity_charge_policy);
 
         MonthBt = findViewById(R.id.Month);
         HourBt = findViewById(R.id.Hour);
@@ -44,12 +44,12 @@ public class ChooseActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.Month:
                 registerAndEnter(true);
-                Intent intent1 = new Intent(ChooseActivity.this, MainActivity.class);
+                Intent intent1 = new Intent(ChargePolicyActivity.this, MainActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.Hour:
                 registerAndEnter(false);
-                Intent intent2 = new Intent(ChooseActivity.this, MainActivity.class);
+                Intent intent2 = new Intent(ChargePolicyActivity.this, MainActivity.class);
                 startActivity(intent2);
                 break;
         }
@@ -59,7 +59,7 @@ public class ChooseActivity extends AppCompatActivity implements View.OnClickLis
         userService.saveOrUpdate(CarNum, carUser, isMonthRent);
 
         //添加车库关联信息
-        int garageId = distributionGarageIdService.getGarageId();
-        garageRelationService.saveGarageRelation(CarNum, isMonthRent, garageId);
+        int garageId = parkNumberService.getGarageId();
+        carParkService.saveGarageRelation(CarNum, isMonthRent, garageId);
     }
 }

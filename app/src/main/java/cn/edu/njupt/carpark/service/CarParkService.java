@@ -3,14 +3,32 @@ package cn.edu.njupt.carpark.service;
 import java.util.HashSet;
 import java.util.Set;
 
-import cn.edu.njupt.carpark.bean.CarParkDO;
+import cn.edu.njupt.carpark.entity.CarParkDO;
 import cn.edu.njupt.carpark.dao.GarageRelationDao;
+import cn.edu.njupt.carpark.dao.UserDao;
 
 
 // CarParkDO service
-public class GarageRelationService {
+public class CarParkService {
+    private volatile static CarParkService instance;
 
-    private static GarageRelationDao garageRelationDao = new GarageRelationDao();
+    private CarParkService() {
+    }
+
+    public static CarParkService getInstance() {
+        // check 1
+        if (null == instance) {
+            synchronized (UserDao.class) {
+                // check 2
+                if (null == instance) {
+                    instance = new CarParkService();
+                }
+            }
+        }
+        return instance;
+    }
+
+    private static GarageRelationDao garageRelationDao = GarageRelationDao.getInstance();
 
     /**
      * 获取所有在使用的车库号

@@ -30,23 +30,23 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import cn.edu.njupt.carpark.activity.ChooseActivity;
+import cn.edu.njupt.carpark.activity.ChargePolicyActivity;
 import cn.edu.njupt.carpark.activity.LeaveActivity;
 import cn.edu.njupt.carpark.activity.RegisterActivity;
-import cn.edu.njupt.carpark.bean.CarParkDO;
-import cn.edu.njupt.carpark.bean.CarDO;
-import cn.edu.njupt.carpark.service.DistributionGarageIdService;
-import cn.edu.njupt.carpark.service.GarageRelationService;
+import cn.edu.njupt.carpark.entity.CarDO;
+import cn.edu.njupt.carpark.entity.CarParkDO;
+import cn.edu.njupt.carpark.service.ParkNumberService;
+import cn.edu.njupt.carpark.service.CarParkService;
 import cn.edu.njupt.carpark.service.UserService;
-import cn.edu.njupt.carpark.util.GetCarCode;
-import cn.edu.njupt.carpark.util.ImageHandler;
+import cn.edu.njupt.carpark.utils.GetCarCode;
+import cn.edu.njupt.carpark.utils.ImageHandler;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, EasyPermissions.PermissionCallbacks {
 
-    private static GarageRelationService garageRelationService = new GarageRelationService();
-    private static UserService userService = new UserService();
-    private static DistributionGarageIdService distributionGarageIdService = new DistributionGarageIdService();
+    private CarParkService carParkService = CarParkService.getInstance();
+    private UserService userService = UserService.getInstance();
+    private ParkNumberService parkNumberService = ParkNumberService.getInstance();
 
     private int parkingSpace; //车库可用的车位
     private TextView garageId;
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         scanBtn = findViewById(R.id.scan_btn);
         choosePhoto = findViewById(R.id.choose_from_album);
         picture = findViewById(R.id.iv_picture);
-        parkingSpace = new DistributionGarageIdService().leaveGaragedIdNubers();
+        parkingSpace = parkNumberService.leaveGaragedIdNubers();
         garageId.setText(parkingSpace + "");
         scanBtn.setOnClickListener(this);
         choosePhoto.setOnClickListener(this);
@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     };
 
     private void park(String plateNumber) {
-        CarParkDO carParkDO = garageRelationService.getGarageRelation(plateNumber);
+        CarParkDO carParkDO = carParkService.getGarageRelation(plateNumber);
         // 离开停车场
         if (carParkDO != null) {
             CarDO carDO = userService.getByNumber(plateNumber);
@@ -251,9 +251,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             // 出库
             //删除关联表信息
-            garageRelationService.deleteGarageRelation(carParkDO.getNumber());
+            carParkService.deleteGarageRelation(carParkDO.getNumber());
             //维护set集合信息
-            distributionGarageIdService.outGarageId(carParkDO.getGarageNumber());
+            parkNumberService.outGarageId(carParkDO.getGarageNumber());
 
         } else { // 停车
             CarDO carDO = userService.getByNumber(plateNumber);
@@ -274,13 +274,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 // 直接进入
                 //添加关联表信息
-                garageRelationService.saveGarageRelation(plateNumber, true, distributionGarageIdService.getGarageId());
+                carParkService.saveGarageRelation(plateNumber, true, parkNumberService.getGarageId());
                 Toast.makeText(MainActivity.this, "月租用户，欢迎光临！", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             // 进入ChooseActivity
-            Intent intent = new Intent(MainActivity.this, ChooseActivity.class);
+            Intent intent = new Intent(MainActivity.this, ChargePolicyActivity.class);
             intent.putExtra("CarNum", plateNumber);
             intent.putExtra("carUser", carDO.getUsername());
             startActivity(intent);

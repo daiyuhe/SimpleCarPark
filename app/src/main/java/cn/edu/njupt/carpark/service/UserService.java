@@ -1,12 +1,29 @@
 package cn.edu.njupt.carpark.service;
 
 
-import cn.edu.njupt.carpark.bean.CarDO;
-import cn.edu.njupt.carpark.dao.UserDaoImpl;
+import cn.edu.njupt.carpark.entity.CarDO;
+import cn.edu.njupt.carpark.dao.UserDao;
 
 public class UserService {
+    private volatile static UserService instance;
 
-    private static UserDaoImpl userDao = UserDaoImpl.getInstance();
+    private UserService() {
+    }
+
+    public static UserService getInstance() {
+        // check 1
+        if (null == instance) {
+            synchronized (UserDao.class) {
+                // check 2
+                if (null == instance) {
+                    instance = new UserService();
+                }
+            }
+        }
+        return instance;
+    }
+
+    private static UserDao userDao = UserDao.getInstance();
 
     /**
      * @param number plate number

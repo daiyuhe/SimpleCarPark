@@ -6,8 +6,8 @@
     <version value="4" />
 
     <list>
-        <mapping class="cn.edu.njupt.carpark.bean.CarParkDO" />
-        <mapping class="cn.edu.njupt.carpark.bean.CarDO" />
+        <mapping class="cn.edu.njupt.carpark.entity.CarParkDO" />
+        <mapping class="cn.edu.njupt.carpark.entity.CarDO" />
     </list>
 
 </litepal>
