@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import cn.edu.njupt.carpark.MainActivity;
 import cn.edu.njupt.carpark.R;
 import cn.edu.njupt.carpark.service.DistributionGarageIdService;
 import cn.edu.njupt.carpark.service.GarageRelationService;

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import cn.edu.njupt.carpark.MainActivity;
 import cn.edu.njupt.carpark.R;
 import cn.edu.njupt.carpark.bean.User;
 import cn.edu.njupt.carpark.dao.GarageRelationDao;
