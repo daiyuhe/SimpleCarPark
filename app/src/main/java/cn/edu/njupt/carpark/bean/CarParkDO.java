@@ -5,7 +5,7 @@ import org.litepal.crud.LitePalSupport;
 /**
  * 车库关系表
  */
-public class GarageRelation extends LitePalSupport {
+public class CarParkDO extends LitePalSupport {
 
     private Integer garageNumber;//车库号
 
@@ -49,7 +49,7 @@ public class GarageRelation extends LitePalSupport {
 
     @Override
     public String toString() {
-        return "GarageRelation{" +
+        return "CarParkDO{" +
                 "garageNumber=" + garageNumber +
                 ", number='" + number + '\'' +
                 ", enterTime=" + enterTime +

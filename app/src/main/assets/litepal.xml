@@ -3,11 +3,11 @@
 
     <dbname value="SimpleCarPark" />
 
-    <version value="3" />
+    <version value="4" />
 
     <list>
-        <mapping class="cn.edu.njupt.carpark.bean.GarageRelation" />
-        <mapping class="cn.edu.njupt.carpark.bean.User" />
+        <mapping class="cn.edu.njupt.carpark.bean.CarParkDO" />
+        <mapping class="cn.edu.njupt.carpark.bean.CarDO" />
     </list>
 
 </litepal>

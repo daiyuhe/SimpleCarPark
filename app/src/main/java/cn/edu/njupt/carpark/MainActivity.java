@@ -33,8 +33,8 @@ import java.util.List;
 import cn.edu.njupt.carpark.activity.ChooseActivity;
 import cn.edu.njupt.carpark.activity.LeaveActivity;
 import cn.edu.njupt.carpark.activity.RegisterActivity;
-import cn.edu.njupt.carpark.bean.GarageRelation;
-import cn.edu.njupt.carpark.bean.User;
+import cn.edu.njupt.carpark.bean.CarParkDO;
+import cn.edu.njupt.carpark.bean.CarDO;
 import cn.edu.njupt.carpark.service.DistributionGarageIdService;
 import cn.edu.njupt.carpark.service.GarageRelationService;
 import cn.edu.njupt.carpark.service.UserService;
@@ -228,12 +228,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     };
 
     private void park(String plateNumber) {
-        GarageRelation garageRelation = garageRelationService.getGarageRelation(plateNumber);
+        CarParkDO carParkDO = garageRelationService.getGarageRelation(plateNumber);
         // 离开停车场
-        if (garageRelation != null) {
-            User user = userService.getByNumber(plateNumber);
+        if (carParkDO != null) {
+            CarDO carDO = userService.getByNumber(plateNumber);
             // 小时向上取整
-            long time = (System.currentTimeMillis() / 1000 - garageRelation.getEnterTime()) / 60 / 60 + 1;
+            long time = (System.currentTimeMillis() / 1000 - carParkDO.getEnterTime()) / 60 / 60 + 1;
             Intent intent = new Intent(MainActivity.this, LeaveActivity.class);
 
             // 缴费金额
@@ -241,9 +241,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // 传递相关数据
             intent.putExtra("cost", cost);
             intent.putExtra("time", time);
-            intent.putExtra("garageId", garageRelation.getGarageNumber());
-            intent.putExtra("user", user);
-            if (garageRelation.getMonthRent()) {
+            intent.putExtra("garageId", carParkDO.getGarageNumber());
+            intent.putExtra("carDO", carDO);
+            if (carParkDO.getMonthRent()) {
                 // 是月租
                 intent.putExtra("cost", 0L);
             }
@@ -251,21 +251,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             // 出库
             //删除关联表信息
-            garageRelationService.deleteGarageRelation(garageRelation.getNumber());
+            garageRelationService.deleteGarageRelation(carParkDO.getNumber());
             //维护set集合信息
-            distributionGarageIdService.outGarageId(garageRelation.getGarageNumber());
+            distributionGarageIdService.outGarageId(carParkDO.getGarageNumber());
 
         } else { // 停车
-            User user = userService.getByNumber(plateNumber);
-            if (null == user) {
+            CarDO carDO = userService.getByNumber(plateNumber);
+            if (null == carDO) {
                 // 注册流程
                 Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
                 intent.putExtra("CarNum", plateNumber);
                 startActivity(intent);
                 return;
-            } else if (user.getMonthRent()) {
-                if ((System.currentTimeMillis() - user.getMonthRentStartTime()) / 1000 / 60 / 60 / 24 > 30) {
-                    int i = userService.monthRentExpired(plateNumber, user.getUsername());
+            } else if (carDO.getMonthRent()) {
+                if ((System.currentTimeMillis() - carDO.getMonthRentStartTime()) / 1000 / 60 / 60 / 24 > 30) {
+                    int i = userService.monthRentExpired(plateNumber, carDO.getUsername());
                     // 避免无限递归
                     if (i > 0) {
                         Toast.makeText(MainActivity.this, "月租已到期，请重新选择", Toast.LENGTH_SHORT).show();
@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // 进入ChooseActivity
             Intent intent = new Intent(MainActivity.this, ChooseActivity.class);
             intent.putExtra("CarNum", plateNumber);
-            intent.putExtra("carUser", user.getUsername());
+            intent.putExtra("carUser", carDO.getUsername());
             startActivity(intent);
         }
     }

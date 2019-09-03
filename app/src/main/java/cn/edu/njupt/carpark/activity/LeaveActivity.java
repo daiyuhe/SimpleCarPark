@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import cn.edu.njupt.carpark.MainActivity;
 import cn.edu.njupt.carpark.R;
-import cn.edu.njupt.carpark.bean.User;
+import cn.edu.njupt.carpark.bean.CarDO;
 import cn.edu.njupt.carpark.dao.GarageRelationDao;
 import cn.edu.njupt.carpark.service.DistributionGarageIdService;
 
@@ -41,19 +41,19 @@ public class LeaveActivity extends AppCompatActivity implements View.OnClickList
         time = getIntent().getLongExtra("time", 0L);
         cost = getIntent().getLongExtra("cost", 0L);
         // 获取反序列化的user
-        User user = (User) getIntent().getSerializableExtra("user");
-        if (user.getMonthRent()) {
+        CarDO carDO = (CarDO) getIntent().getSerializableExtra("carDO");
+        if (carDO.getMonthRent()) {
             cost = 0L;
         }
 
-        plateNumberTextView.setText(user.getNumber());
-        usernameTextView.setText(user.getUsername());
+        plateNumberTextView.setText(carDO.getNumber());
+        usernameTextView.setText(carDO.getUsername());
 
-        leave(user.getNumber());
+        leave(carDO.getNumber());
         garageIdTextView.setText(garageId + "");
         timeTextView.setText(time + "小时");
-        long day = 30 - (System.currentTimeMillis() - user.getMonthRentStartTime()) / 1000 / 60 / 60 / 24 + 1;
-        if (user.getMonthRent()) {
+        long day = 30 - ((System.currentTimeMillis() - carDO.getMonthRentStartTime()) / 1000 / 60 / 60 / 24 + 1);
+        if (carDO.getMonthRent()) {
             costTextView.setText("月租剩余:" + day + "天");
         } else {
             costTextView.setText(cost + "元");

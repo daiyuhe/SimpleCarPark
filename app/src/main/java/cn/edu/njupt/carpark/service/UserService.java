@@ -1,17 +1,17 @@
 package cn.edu.njupt.carpark.service;
 
 
-import cn.edu.njupt.carpark.bean.User;
+import cn.edu.njupt.carpark.bean.CarDO;
 import cn.edu.njupt.carpark.dao.UserDaoImpl;
 
 public class UserService {
 
-    private static UserDaoImpl userDao = new UserDaoImpl();
+    private static UserDaoImpl userDao = UserDaoImpl.getInstance();
 
     /**
      * @param number plate number
      */
-    public User getByNumber(String number) {
+    public CarDO getByNumber(String number) {
         return userDao.queryByNumber(number);
     }
 
@@ -24,22 +24,22 @@ public class UserService {
      * @return true or false
      */
     public boolean saveOrUpdate(String number, String username, boolean isMonthRent) {
-        User user = new User();
-        user.setNumber(number);
-        user.setUsername(username);
-        user.setMonthRent(isMonthRent);
+        CarDO carDO = new CarDO();
+        carDO.setNumber(number);
+        carDO.setUsername(username);
+        carDO.setMonthRent(isMonthRent);
         if (isMonthRent) {
-            user.setMonthRentStartTime(System.currentTimeMillis());
+            carDO.setMonthRentStartTime(System.currentTimeMillis());
         }
-        return userDao.saveOrUpdate(number, user);
+        return userDao.saveOrUpdate(number, carDO);
     }
 
     public int monthRentExpired(String number, String username) {
-        User user = new User();
-        user.setNumber(number);
-        user.setUsername(username);
-        user.setMonthRent(false);
-        return userDao.updateMonthRentByNumber(number, user);
+        CarDO carDO = new CarDO();
+        carDO.setNumber(number);
+        carDO.setUsername(username);
+        carDO.setMonthRent(false);
+        return userDao.updateMonthRentByNumber(number, carDO);
     }
 
     public boolean deleteByNumber(String number) {

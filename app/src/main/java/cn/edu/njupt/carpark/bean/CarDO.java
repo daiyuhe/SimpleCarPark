@@ -5,7 +5,7 @@ import org.litepal.crud.LitePalSupport;
 
 import java.io.Serializable;
 
-public class User extends LitePalSupport implements Serializable {
+public class CarDO extends LitePalSupport implements Serializable {
     @Column(nullable = false)
     private String number;
 
@@ -50,7 +50,7 @@ public class User extends LitePalSupport implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "CarDO{" +
                 "number='" + number + '\'' +
                 ", username='" + username + '\'' +
                 ", isMonthRent=" + isMonthRent +

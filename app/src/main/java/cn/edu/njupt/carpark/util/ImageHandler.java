@@ -6,11 +6,13 @@ import android.graphics.Matrix;
 import java.io.ByteArrayOutputStream;
 
 public class ImageHandler {
+
     public static byte[] bitmap2ByteArray(Bitmap bm) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.PNG, 100, baos);    //注意压缩png和jpg的格式和质量
         return baos.toByteArray();
     }
+
     /**
      * 旋转图片。
      *
