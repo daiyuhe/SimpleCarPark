@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Uri imageUri;
 
-    //............byte array
+    //存放图片byte数组
     private static byte[] imagedata;
 
 
@@ -69,6 +69,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         LitePal.initialize(this);
         setContentView(R.layout.activity_main);
+        //初始化页面组件
+        init();
+        getPermission();
+    }
+
+    //初始化页面组件
+    private void init(){
         garageId = findViewById(R.id.garage_id);
         scanBtn = findViewById(R.id.scan_btn);
         choosePhoto = findViewById(R.id.choose_from_album);
@@ -77,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         garageId.setText(parkingSpace + "");
         scanBtn.setOnClickListener(this);
         choosePhoto.setOnClickListener(this);
-        getPermission();
     }
 
     //调用扫描识别车牌
