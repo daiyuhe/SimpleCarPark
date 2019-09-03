@@ -13,7 +13,7 @@ import cn.edu.njupt.carpark.R;
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
     private String plateNumber;      //车牌
     private String username;     //用户名
-    private Button enter;
+    private Button enterBtn;
     private TextView plateNumberTextView;        //车牌文本框
     private EditText usernameEditText;       //用户名输入框
 
@@ -24,10 +24,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         plateNumberTextView =findViewById(R.id.plate_number);
         usernameEditText =findViewById(R.id.username);
-        enter =findViewById(R.id.Enter);
+        enterBtn =findViewById(R.id.Enter);
         plateNumber =getIntent().getStringExtra("plateNumber");
         plateNumberTextView.setText(plateNumber);
-        enter.setOnClickListener(this);
+        enterBtn.setOnClickListener(this);
     }
 
     @Override

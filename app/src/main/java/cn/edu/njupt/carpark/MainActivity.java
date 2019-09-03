@@ -260,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (null == carDO) {
                 // 注册流程
                 Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-                intent.putExtra("username", plateNumber);
+                intent.putExtra("plateNumber", plateNumber);
                 startActivity(intent);
                 return;
             } else if (carDO.getMonthRent()) {
