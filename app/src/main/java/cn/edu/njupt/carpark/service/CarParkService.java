@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import cn.edu.njupt.carpark.entity.CarParkDO;
-import cn.edu.njupt.carpark.dao.GarageRelationDao;
-import cn.edu.njupt.carpark.dao.UserDao;
+import cn.edu.njupt.carpark.dao.CarParkDao;
+import cn.edu.njupt.carpark.dao.CarDao;
 
 
 // CarParkDO service
@@ -18,7 +18,7 @@ public class CarParkService {
     public static CarParkService getInstance() {
         // check 1
         if (null == instance) {
-            synchronized (UserDao.class) {
+            synchronized (CarDao.class) {
                 // check 2
                 if (null == instance) {
                     instance = new CarParkService();
@@ -28,14 +28,14 @@ public class CarParkService {
         return instance;
     }
 
-    private static GarageRelationDao garageRelationDao = GarageRelationDao.getInstance();
+    private static CarParkDao carParkDao = CarParkDao.getInstance();
 
     /**
      * 获取所有在使用的车库号
      * @return
      */
     public Set<Integer> listGarageId(){
-        return new HashSet<Integer>(garageRelationDao.listGarageId());
+        return new HashSet<Integer>(carParkDao.listGarageId());
     }
 
     /**
@@ -51,7 +51,7 @@ public class CarParkService {
         carParkDO.setMonthRent(isRent);
         carParkDO.setGarageNumber(garageNumber);
         carParkDO.setEnterTime(System.currentTimeMillis() / 1000); //秒级别的
-        return garageRelationDao.saveGarageRelation(carParkDO);
+        return carParkDao.saveGarageRelation(carParkDO);
     }
 
 
@@ -61,7 +61,7 @@ public class CarParkService {
      * @return
      */
     public int deleteGarageRelation(String number){
-        return garageRelationDao.deleteGarageRelation(number);
+        return carParkDao.deleteGarageRelation(number);
     }
 
 
@@ -71,6 +71,6 @@ public class CarParkService {
      * @return
      */
     public CarParkDO getGarageRelation(String number){
-        return garageRelationDao.getGarageRelation(number);
+        return carParkDao.getGarageRelation(number);
     }
 }

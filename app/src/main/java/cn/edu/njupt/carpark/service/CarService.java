@@ -2,34 +2,34 @@ package cn.edu.njupt.carpark.service;
 
 
 import cn.edu.njupt.carpark.entity.CarDO;
-import cn.edu.njupt.carpark.dao.UserDao;
+import cn.edu.njupt.carpark.dao.CarDao;
 
-public class UserService {
-    private volatile static UserService instance;
+public class CarService {
+    private volatile static CarService instance;
 
-    private UserService() {
+    private CarService() {
     }
 
-    public static UserService getInstance() {
+    public static CarService getInstance() {
         // check 1
         if (null == instance) {
-            synchronized (UserDao.class) {
+            synchronized (CarDao.class) {
                 // check 2
                 if (null == instance) {
-                    instance = new UserService();
+                    instance = new CarService();
                 }
             }
         }
         return instance;
     }
 
-    private static UserDao userDao = UserDao.getInstance();
+    private static CarDao carDao = CarDao.getInstance();
 
     /**
      * @param number plate number
      */
     public CarDO getByNumber(String number) {
-        return userDao.queryByNumber(number);
+        return carDao.queryByNumber(number);
     }
 
     /**
@@ -48,7 +48,7 @@ public class UserService {
         if (isMonthRent) {
             carDO.setMonthRentStartTime(System.currentTimeMillis());
         }
-        return userDao.saveOrUpdate(number, carDO);
+        return carDao.saveOrUpdate(number, carDO);
     }
 
     public int monthRentExpired(String number, String username) {
@@ -56,10 +56,10 @@ public class UserService {
         carDO.setNumber(number);
         carDO.setUsername(username);
         carDO.setMonthRent(false);
-        return userDao.updateMonthRentByNumber(number, carDO);
+        return carDao.updateMonthRentByNumber(number, carDO);
     }
 
     public boolean deleteByNumber(String number) {
-        return userDao.deleteByNumber(number);
+        return carDao.deleteByNumber(number);
     }
 }

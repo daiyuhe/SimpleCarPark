@@ -37,7 +37,7 @@ import cn.edu.njupt.carpark.entity.CarDO;
 import cn.edu.njupt.carpark.entity.CarParkDO;
 import cn.edu.njupt.carpark.service.ParkNumberService;
 import cn.edu.njupt.carpark.service.CarParkService;
-import cn.edu.njupt.carpark.service.UserService;
+import cn.edu.njupt.carpark.service.CarService;
 import cn.edu.njupt.carpark.utils.GetCarCode;
 import cn.edu.njupt.carpark.utils.ImageHandler;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -45,7 +45,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, EasyPermissions.PermissionCallbacks {
 
     private CarParkService carParkService = CarParkService.getInstance();
-    private UserService userService = UserService.getInstance();
+    private CarService carService = CarService.getInstance();
     private ParkNumberService parkNumberService = ParkNumberService.getInstance();
 
     private int parkingSpace; //车库可用的车位
@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         CarParkDO carParkDO = carParkService.getGarageRelation(plateNumber);
         // 离开停车场
         if (carParkDO != null) {
-            CarDO carDO = userService.getByNumber(plateNumber);
+            CarDO carDO = carService.getByNumber(plateNumber);
             // 小时向上取整
             long time = (System.currentTimeMillis() / 1000 - carParkDO.getEnterTime()) / 60 / 60 + 1;
             Intent intent = new Intent(MainActivity.this, LeaveActivity.class);
@@ -256,16 +256,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             parkNumberService.outGarageId(carParkDO.getGarageNumber());
 
         } else { // 停车
-            CarDO carDO = userService.getByNumber(plateNumber);
+            CarDO carDO = carService.getByNumber(plateNumber);
             if (null == carDO) {
                 // 注册流程
                 Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-                intent.putExtra("CarNum", plateNumber);
+                intent.putExtra("username", plateNumber);
                 startActivity(intent);
                 return;
             } else if (carDO.getMonthRent()) {
                 if ((System.currentTimeMillis() - carDO.getMonthRentStartTime()) / 1000 / 60 / 60 / 24 > 30) {
-                    int i = userService.monthRentExpired(plateNumber, carDO.getUsername());
+                    int i = carService.monthRentExpired(plateNumber, carDO.getUsername());
                     // 避免无限递归
                     if (i > 0) {
                         Toast.makeText(MainActivity.this, "月租已到期，请重新选择", Toast.LENGTH_SHORT).show();
@@ -281,8 +281,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             // 进入ChooseActivity
             Intent intent = new Intent(MainActivity.this, ChargePolicyActivity.class);
-            intent.putExtra("CarNum", plateNumber);
-            intent.putExtra("carUser", carDO.getUsername());
+            intent.putExtra("plateNumber", plateNumber);
+            intent.putExtra("username", carDO.getUsername());
             startActivity(intent);
         }
     }

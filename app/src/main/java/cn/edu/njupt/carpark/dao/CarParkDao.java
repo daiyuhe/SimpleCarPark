@@ -8,19 +8,19 @@ import java.util.List;
 import cn.edu.njupt.carpark.entity.CarParkDO;
 
 
-public class GarageRelationDao {
-    private volatile static GarageRelationDao instance;
+public class CarParkDao {
+    private volatile static CarParkDao instance;
 
-    private GarageRelationDao() {
+    private CarParkDao() {
     }
 
-    public static GarageRelationDao getInstance() {
+    public static CarParkDao getInstance() {
         // check 1
         if (null == instance) {
-            synchronized (UserDao.class) {
+            synchronized (CarDao.class) {
                 // check 2
                 if (null == instance) {
-                    instance = new GarageRelationDao();
+                    instance = new CarParkDao();
                 }
             }
         }

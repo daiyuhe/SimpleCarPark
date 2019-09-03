@@ -10,16 +10,16 @@ import cn.edu.njupt.carpark.MainActivity;
 import cn.edu.njupt.carpark.R;
 import cn.edu.njupt.carpark.service.ParkNumberService;
 import cn.edu.njupt.carpark.service.CarParkService;
-import cn.edu.njupt.carpark.service.UserService;
+import cn.edu.njupt.carpark.service.CarService;
 
 
 public class ChargePolicyActivity extends AppCompatActivity implements View.OnClickListener {
-    private String CarNum;      //车牌
-    private String carUser;     //车主
-    private Button MonthBt;
-    private Button HourBt;
+    private String plateNumber;      // 车牌号
+    private String username;     // 用户名
+    private Button monthBtn;
+    private Button singleBtn;
 
-    private UserService userService = UserService.getInstance();
+    private CarService carService = CarService.getInstance();
     private CarParkService carParkService = CarParkService.getInstance();
 
     private ParkNumberService parkNumberService = ParkNumberService.getInstance();
@@ -29,13 +29,13 @@ public class ChargePolicyActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charge_policy);
 
-        MonthBt = findViewById(R.id.Month);
-        HourBt = findViewById(R.id.Hour);
-        CarNum = getIntent().getStringExtra("CarNum");
-        carUser = getIntent().getStringExtra("carUser");
+        monthBtn = findViewById(R.id.Month);
+        singleBtn = findViewById(R.id.Hour);
+        plateNumber = getIntent().getStringExtra("plateNumber");
+        username = getIntent().getStringExtra("username");
 
-        MonthBt.setOnClickListener(this);
-        HourBt.setOnClickListener(this);
+        monthBtn.setOnClickListener(this);
+        singleBtn.setOnClickListener(this);
     }
 
     //点击包月或者按次计费之后跳到主页
@@ -56,10 +56,10 @@ public class ChargePolicyActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void registerAndEnter(boolean isMonthRent) {
-        userService.saveOrUpdate(CarNum, carUser, isMonthRent);
+        carService.saveOrUpdate(plateNumber, username, isMonthRent);
 
         //添加车库关联信息
         int garageId = parkNumberService.getGarageId();
-        carParkService.saveGarageRelation(CarNum, isMonthRent, garageId);
+        carParkService.saveGarageRelation(plateNumber, isMonthRent, garageId);
     }
 }

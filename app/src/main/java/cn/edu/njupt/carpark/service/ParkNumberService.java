@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import cn.edu.njupt.carpark.dao.UserDao;
+import cn.edu.njupt.carpark.dao.CarDao;
 
 //分发车库号
 public class ParkNumberService {
@@ -16,7 +16,7 @@ public class ParkNumberService {
     public static ParkNumberService getInstance() {
         // check 1
         if (null == instance) {
-            synchronized (UserDao.class) {
+            synchronized (CarDao.class) {
                 // check 2
                 if (null == instance) {
                     instance = new ParkNumberService();

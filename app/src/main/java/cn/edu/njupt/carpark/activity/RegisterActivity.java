@@ -11,31 +11,31 @@ import android.widget.TextView;
 import cn.edu.njupt.carpark.R;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
-    private String CarNum;      //车牌
-    private String CarUser;     //车主
-    private Button Enter;
-    private TextView CarNumTextView;        //车牌文字框
-    private EditText CarUserEditText;       //车主输入框
+    private String plateNumber;      //车牌
+    private String username;     //用户名
+    private Button enter;
+    private TextView plateNumberTextView;        //车牌文本框
+    private EditText usernameEditText;       //用户名输入框
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        CarNumTextView=findViewById(R.id.plate_number);
-        CarUserEditText=findViewById(R.id.username);
-        Enter=findViewById(R.id.Enter);
-        CarNum=getIntent().getStringExtra("CarNum");
-        CarNumTextView.setText(CarNum);
-        Enter.setOnClickListener(this);
+        plateNumberTextView =findViewById(R.id.plate_number);
+        usernameEditText =findViewById(R.id.username);
+        enter =findViewById(R.id.Enter);
+        plateNumber =getIntent().getStringExtra("plateNumber");
+        plateNumberTextView.setText(plateNumber);
+        enter.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        CarUser=CarUserEditText.getText().toString();
+        username = usernameEditText.getText().toString();
         Intent intent = new Intent(RegisterActivity.this, ChargePolicyActivity.class);
-        intent.putExtra("CarNum", CarNum);
-        intent.putExtra("carUser", CarUser);
+        intent.putExtra("plateNumber", plateNumber);
+        intent.putExtra("username", username);
         startActivity(intent);
     }
 

@@ -6,19 +6,19 @@ import org.litepal.LitePal;
 import cn.edu.njupt.carpark.entity.CarDO;
 
 
-public class UserDao {
-    private volatile static UserDao instance;
+public class CarDao {
+    private volatile static CarDao instance;
 
-    private UserDao() {
+    private CarDao() {
     }
 
-    public static UserDao getInstance() {
+    public static CarDao getInstance() {
         // check 1
         if (null == instance) {
-            synchronized (UserDao.class) {
+            synchronized (CarDao.class) {
                 // check 2
                 if (null == instance) {
-                    instance = new UserDao();
+                    instance = new CarDao();
                 }
             }
         }
