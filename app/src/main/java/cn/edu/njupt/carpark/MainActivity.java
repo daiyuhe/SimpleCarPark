@@ -38,7 +38,7 @@ import cn.edu.njupt.carpark.entity.CarParkDO;
 import cn.edu.njupt.carpark.service.ParkNumberService;
 import cn.edu.njupt.carpark.service.CarParkService;
 import cn.edu.njupt.carpark.service.CarService;
-import cn.edu.njupt.carpark.utils.GetCarCode;
+import cn.edu.njupt.carpark.utils.GetCarNumber;
 import cn.edu.njupt.carpark.utils.ImageHandler;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -214,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Looper.prepare();
             }
             try {
-                String result = GetCarCode.checkFile(imagedata);
+                String result = GetCarNumber.identifyImg(imagedata);
                 JSONObject jsonObject = JSONObject.parseObject(result);
 
                 if (jsonObject.getString("error_code") != null) {
