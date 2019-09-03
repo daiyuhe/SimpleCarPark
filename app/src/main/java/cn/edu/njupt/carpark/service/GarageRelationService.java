@@ -12,28 +12,47 @@ public class GarageRelationService {
 
     private static GarageRelationDao garageRelationDao = new GarageRelationDao();
 
-    //获取所有在使用的车库号
-    public Set<Integer> getAllGarageId(){
-        return new HashSet<Integer>(garageRelationDao.getAllGarageId());
+    /**
+     * 获取所有在使用的车库号
+     * @return
+     */
+    public Set<Integer> listGarageId(){
+        return new HashSet<Integer>(garageRelationDao.listGarageId());
     }
 
-    //根据carId、isRent、garageId 添加GarageRelation对象
-    public boolean addGarageRelation(String cardId , boolean isRent , int garagedId){
+    /**
+     * 根据number、isRent、garageNumber 添加GarageRelation对象
+     * @param number
+     * @param isRent
+     * @param garageNumber
+     * @return
+     */
+    public boolean saveGarageRelation(String number , boolean isRent , int garageNumber){
         GarageRelation garageRelation = new GarageRelation();
-        garageRelation.setCarId(cardId);
-        garageRelation.setRent(isRent);
-        garageRelation.setGarageId(garagedId);
-        garageRelation.setEntryTime(System.currentTimeMillis() / 1000); //秒级别的
-        return garageRelationDao.addGarageRelation(garageRelation);
+        garageRelation.setNumber(number);
+        garageRelation.setMonthRent(isRent);
+        garageRelation.setGarageNumber(garageNumber);
+        garageRelation.setEnterTime(System.currentTimeMillis() / 1000); //秒级别的
+        return garageRelationDao.saveGarageRelation(garageRelation);
     }
 
-    //根据cardId 删除GarageRelation对象
-    public int deleteGarageRelation(String carId){
-        return garageRelationDao.deleteGarageRelation(carId);
+
+    /**
+     * 根据number 删除GarageRelation对象
+     * @param number
+     * @return
+     */
+    public int deleteGarageRelation(String number){
+        return garageRelationDao.deleteGarageRelation(number);
     }
 
-    //根据cardId 获取GarageRelation对象
-    public GarageRelation getGarageRelation(String cardId){
-        return garageRelationDao.getGarageRelation(cardId);
+
+    /**
+     * 根据number 获取GarageRelation对象
+     * @param number
+     * @return
+     */
+    public GarageRelation getGarageRelation(String number){
+        return garageRelationDao.getGarageRelation(number);
     }
 }

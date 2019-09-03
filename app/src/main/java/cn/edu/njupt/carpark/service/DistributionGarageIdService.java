@@ -19,7 +19,7 @@ public class DistributionGarageIdService {
 
     //初始化Set集合
     private static void init(){
-        Set<Integer> set1 = garageRelationService.getAllGarageId();
+        Set<Integer> set1 = garageRelationService.listGarageId();
         Set<Integer> set2 = new HashSet<>();
         for(int i = 1 ; i <= garageIdSize ; i++){
             if(!set1.contains(i)){

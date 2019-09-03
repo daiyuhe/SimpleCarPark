@@ -60,6 +60,6 @@ public class ChooseActivity extends AppCompatActivity implements View.OnClickLis
 
         //添加车库关联信息
         int garageId = distributionGarageIdService.getGarageId();
-        garageRelationService.addGarageRelation(CarNum, isMonthRent, garageId);
+        garageRelationService.saveGarageRelation(CarNum, isMonthRent, garageId);
     }
 }

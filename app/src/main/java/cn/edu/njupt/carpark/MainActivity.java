@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (garageRelation != null) {
             User user = userService.getByNumber(plateNumber);
             // 小时向上取整
-            long time = (System.currentTimeMillis() / 1000 - garageRelation.getEntryTime()) / 60 / 60 + 1;
+            long time = (System.currentTimeMillis() / 1000 - garageRelation.getEnterTime()) / 60 / 60 + 1;
             Intent intent = new Intent(MainActivity.this, LeaveActivity.class);
 
             // 缴费金额
@@ -241,9 +241,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // 传递相关数据
             intent.putExtra("cost", cost);
             intent.putExtra("time", time);
-            intent.putExtra("garageId", garageRelation.getGarageId());
+            intent.putExtra("garageId", garageRelation.getGarageNumber());
             intent.putExtra("user", user);
-            if (garageRelation.getRent()) {
+            if (garageRelation.getMonthRent()) {
                 // 是月租
                 intent.putExtra("cost", 0L);
             }
@@ -251,9 +251,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             // 出库
             //删除关联表信息
-            garageRelationService.deleteGarageRelation(garageRelation.getCarId());
+            garageRelationService.deleteGarageRelation(garageRelation.getNumber());
             //维护set集合信息
-            distributionGarageIdService.outGarageId(garageRelation.getGarageId());
+            distributionGarageIdService.outGarageId(garageRelation.getGarageNumber());
 
         } else { // 停车
             User user = userService.getByNumber(plateNumber);
@@ -274,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 // 直接进入
                 //添加关联表信息
-                garageRelationService.addGarageRelation(plateNumber, true, distributionGarageIdService.getGarageId());
+                garageRelationService.saveGarageRelation(plateNumber, true, distributionGarageIdService.getGarageId());
                 Toast.makeText(MainActivity.this, "月租用户，欢迎光临！", Toast.LENGTH_SHORT).show();
                 return;
             }

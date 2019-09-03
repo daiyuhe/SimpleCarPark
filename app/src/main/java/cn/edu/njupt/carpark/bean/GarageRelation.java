@@ -7,53 +7,53 @@ import org.litepal.crud.LitePalSupport;
  */
 public class GarageRelation extends LitePalSupport {
 
-    private Integer garageId;//车库号
+    private Integer garageNumber;//车库号
 
-    private String carId;//车牌号
+    private String number;//车牌号
 
-    private Long entryTime;//入库时间
+    private Long enterTime;//入库时间
 
-    private Boolean isRent;//是否月租
+    private Boolean isMonthRent;//是否月租
 
-    public Integer getGarageId() {
-        return garageId;
+    public Integer getGarageNumber() {
+        return garageNumber;
     }
 
-    public void setGarageId(Integer garageId) {
-        this.garageId = garageId;
+    public void setGarageNumber(Integer garageNumber) {
+        this.garageNumber = garageNumber;
     }
 
-    public String getCarId() {
-        return carId;
+    public String getNumber() {
+        return number;
     }
 
-    public void setCarId(String carId) {
-        this.carId = carId;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
-    public Long getEntryTime() {
-        return entryTime;
+    public Long getEnterTime() {
+        return enterTime;
     }
 
-    public void setEntryTime(Long entryTime) {
-        this.entryTime = entryTime;
+    public void setEnterTime(Long enterTime) {
+        this.enterTime = enterTime;
     }
 
-    public Boolean getRent() {
-        return isRent;
+    public Boolean getMonthRent() {
+        return isMonthRent;
     }
 
-    public void setRent(Boolean rent) {
-        isRent = rent;
+    public void setMonthRent(Boolean monthRent) {
+        isMonthRent = monthRent;
     }
 
     @Override
     public String toString() {
         return "GarageRelation{" +
-                "garageId=" + garageId +
-                ", carId='" + carId + '\'' +
-                ", entryTime=" + entryTime +
-                ", isRent=" + isRent +
+                "garageNumber=" + garageNumber +
+                ", number='" + number + '\'' +
+                ", enterTime=" + enterTime +
+                ", isMonthRent=" + isMonthRent +
                 '}';
     }
 }
