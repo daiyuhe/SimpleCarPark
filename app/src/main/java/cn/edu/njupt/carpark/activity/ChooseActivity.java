@@ -27,7 +27,7 @@ public class ChooseActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.choose);
+        setContentView(R.layout.activity_choose);
 
         MonthBt = findViewById(R.id.Month);
         HourBt = findViewById(R.id.Hour);
