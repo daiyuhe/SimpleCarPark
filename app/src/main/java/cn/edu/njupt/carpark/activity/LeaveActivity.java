@@ -67,9 +67,9 @@ public class LeaveActivity extends AppCompatActivity implements View.OnClickList
         ParkNumberService parkNumberService = ParkNumberService.getInstance();
         CarParkService carParkService = CarParkService.getInstance();
         //删除关联表相关信息
-        carParkService.deleteGarageRelation(CarNum);
+        carParkService.deleteCarParkDOByNumber(CarNum);
         //维护set集合
-        parkNumberService.outGarageId(garageId);
+        parkNumberService.outParkNumber(garageId);
 
     }
 

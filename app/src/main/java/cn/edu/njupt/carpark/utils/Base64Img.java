@@ -35,10 +35,6 @@ public class Base64Img {
      * @return
      */
     public static String getImageStrFromPath(byte[] data){
-        // 对字节数组Base64编码
-//        BASE64Encoder encoder = new BASE64Encoder();
-        // 返回Base64编码过再URLEncode的字节数组字符串
-//        return URLEncoder.encode(encoder.encode(data));
         return URLEncoder.encode(Base64.encodeToString(data, Base64.DEFAULT));
     }
 }

@@ -9,6 +9,13 @@ import cn.edu.njupt.carpark.dao.CarDao;
 //分发车库号
 public class ParkNumberService {
     private volatile static ParkNumberService instance;
+    private static CarParkService carParkService = CarParkService.getInstance();
+    //默认为50个车库号，从1 ~ 50
+    private static final int garageIdSize = 50;
+    //已经使用过的GarageId
+    private static Set<Integer> usedParkNumber = null;
+    //还未使用过的GarageId
+    private static Set<Integer> unUsedParkNumber = null;
 
     private ParkNumberService() {
     }
@@ -26,66 +33,61 @@ public class ParkNumberService {
         return instance;
     }
 
-    private static CarParkService carParkService = CarParkService.getInstance();
 
-    //默认为200个车库号，从1 ~ 200
-    private static final int garageIdSize = 200;
-
-    //已经使用过的GarageId
-    private static Set<Integer> useedGarageId = null;
-    //还未使用过的GarageId
-    private static Set<Integer> unUseedGarageId = null;
-
-    //初始化Set集合
-    private static void init() {
-        Set<Integer> set1 = carParkService.listGarageId();
+    /**
+     * 初始化Set集合
+     */
+    private static void initSet() {
+        usedParkNumber = carParkService.listAllParkNumber();
         Set<Integer> set2 = new HashSet<>();
         for (int i = 1; i <= garageIdSize; i++) {
-            if (!set1.contains(i)) {
+            if (!usedParkNumber.contains(i)) {
                 set2.add(i);
             }
         }
-        useedGarageId = set1;
-        unUseedGarageId = set2;
+        unUsedParkNumber = set2;
     }
 
-    //入库，获取车牌号
-    public int getGarageId() {
-        if (useedGarageId == null || unUseedGarageId == null) {
-            init();
+    /**
+     * 入库，获取车牌号
+     * @return
+     */
+    public int getParkNumber() {
+        if (usedParkNumber == null || unUsedParkNumber == null) {
+            initSet();
         }
-        if (unUseedGarageId.isEmpty()) {
+        if (unUsedParkNumber.isEmpty()) {
             return -1;
         }
-        Object[] objs = unUseedGarageId.toArray();
+        Object[] objs = unUsedParkNumber.toArray();
         int ran = new Random().nextInt(objs.length);
-        unUseedGarageId.remove(objs[ran]);
-        useedGarageId.add((Integer) objs[ran]);
+        unUsedParkNumber.remove(objs[ran]);
+        usedParkNumber.add((Integer) objs[ran]);
         return (Integer) objs[ran];
     }
 
-    //出库
-    public void outGarageId(int garageId) {
-        if (useedGarageId == null || unUseedGarageId == null) {
-            init();
+    /**
+     * 出库
+     * @param parkNumber
+     */
+    public void outParkNumber(int parkNumber) {
+        if (usedParkNumber == null || unUsedParkNumber == null) {
+            initSet();
         }
-        useedGarageId.remove(garageId);
-        unUseedGarageId.add(garageId);
+        usedParkNumber.remove(parkNumber);
+        unUsedParkNumber.add(parkNumber);
     }
 
-    //剩余车库个数
-    public int leaveGaragedIdNubers() {
-        if (useedGarageId == null || unUseedGarageId == null) {
-            init();
+    /**
+     * 剩余车库个数
+     * @return
+     */
+    public int leaveParkNumbers() {
+        if (usedParkNumber == null || unUsedParkNumber == null) {
+            initSet();
         }
-        return unUseedGarageId.size();
+        return unUsedParkNumber.size();
     }
 
-    //已使用车库个数
-    public int useedGaragedIdNumbers() {
-        if (useedGarageId == null || unUseedGarageId == null) {
-            init();
-        }
-        return useedGarageId.size();
-    }
+
 }

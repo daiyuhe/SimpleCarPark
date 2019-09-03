@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         scanBtn = findViewById(R.id.scan_btn);
         choosePhoto = findViewById(R.id.choose_from_album);
         picture = findViewById(R.id.iv_picture);
-        parkingSpace = parkNumberService.leaveGaragedIdNubers();
+        parkingSpace = parkNumberService.leaveParkNumbers();
         garageId.setText(parkingSpace + "");
         scanBtn.setOnClickListener(this);
         choosePhoto.setOnClickListener(this);
@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     };
 
     private void park(String plateNumber) {
-        CarParkDO carParkDO = carParkService.getGarageRelation(plateNumber);
+        CarParkDO carParkDO = carParkService.getGarParkDOByNumber(plateNumber);
         // 离开停车场
         if (carParkDO != null) {
             CarDO carDO = carService.getByNumber(plateNumber);
@@ -251,9 +251,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             // 出库
             //删除关联表信息
-            carParkService.deleteGarageRelation(carParkDO.getNumber());
+            carParkService.deleteCarParkDOByNumber(carParkDO.getNumber());
             //维护set集合信息
-            parkNumberService.outGarageId(carParkDO.getGarageNumber());
+            parkNumberService.outParkNumber(carParkDO.getGarageNumber());
 
         } else { // 停车
             CarDO carDO = carService.getByNumber(plateNumber);
@@ -274,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 // 直接进入
                 //添加关联表信息
-                carParkService.saveGarageRelation(plateNumber, true, parkNumberService.getGarageId());
+                carParkService.saveCarParkDO(plateNumber, true, parkNumberService.getParkNumber());
                 Toast.makeText(MainActivity.this, "月租用户，欢迎光临！", Toast.LENGTH_SHORT).show();
                 return;
             }

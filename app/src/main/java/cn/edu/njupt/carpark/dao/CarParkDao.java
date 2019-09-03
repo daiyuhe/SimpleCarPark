@@ -31,7 +31,7 @@ public class CarParkDao {
      * 获取所有的车库号
      * @return
      */
-    public List<Integer> listGarageId(){
+    public List<Integer> listAllParkNumber(){
         List<Integer> res = new ArrayList<>();
         List<CarParkDO> list = LitePal.select("garageNumber").find(CarParkDO.class);
         for(int i = 0 ; i < list.size() ; i++){
@@ -46,7 +46,7 @@ public class CarParkDao {
      * @param carParkDO
      * @return
      */
-    public boolean saveGarageRelation(CarParkDO carParkDO){
+    public boolean saveCarParkDO(CarParkDO carParkDO){
         return carParkDO.save();
     }
 
@@ -55,7 +55,7 @@ public class CarParkDao {
      * @param number
      * @return
      */
-    public int deleteGarageRelation(String number){
+    public int deleteCarParkDOByNumber(String number){
         return LitePal.deleteAll(CarParkDO.class , "number = ?" , number);
     }
 
@@ -65,7 +65,7 @@ public class CarParkDao {
      * @param number
      * @return
      */
-    public CarParkDO getGarageRelation(String number){
+    public CarParkDO getCarParkDOByNumber(String number){
         List<CarParkDO> res = LitePal.where("number = ?" , number).find(CarParkDO.class);
         return res.size() == 0 ? null : res.get(0);
     }

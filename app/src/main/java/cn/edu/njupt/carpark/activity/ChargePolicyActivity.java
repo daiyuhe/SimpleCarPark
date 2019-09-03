@@ -59,7 +59,7 @@ public class ChargePolicyActivity extends AppCompatActivity implements View.OnCl
         carService.saveOrUpdate(plateNumber, username, isMonthRent);
 
         //添加车库关联信息
-        int garageId = parkNumberService.getGarageId();
-        carParkService.saveGarageRelation(plateNumber, isMonthRent, garageId);
+        int garageId = parkNumberService.getParkNumber();
+        carParkService.saveCarParkDO(plateNumber, isMonthRent, garageId);
     }
 }

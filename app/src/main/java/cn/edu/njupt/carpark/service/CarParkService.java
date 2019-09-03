@@ -28,49 +28,49 @@ public class CarParkService {
         return instance;
     }
 
-    private static CarParkDao carParkDao = CarParkDao.getInstance();
+    private CarParkDao carParkDao = CarParkDao.getInstance();
 
     /**
      * 获取所有在使用的车库号
      * @return
      */
-    public Set<Integer> listGarageId(){
-        return new HashSet<Integer>(carParkDao.listGarageId());
+    public Set<Integer> listAllParkNumber(){
+        return new HashSet<Integer>(carParkDao.listAllParkNumber());
     }
 
     /**
-     * 根据number、isRent、garageNumber 添加GarageRelation对象
+     * 根据number、isRent、garageNumber 添加CarParkDO对象
      * @param number
      * @param isRent
      * @param garageNumber
      * @return
      */
-    public boolean saveGarageRelation(String number , boolean isRent , int garageNumber){
+    public boolean saveCarParkDO(String number , boolean isRent , int garageNumber){
         CarParkDO carParkDO = new CarParkDO();
         carParkDO.setNumber(number);
         carParkDO.setMonthRent(isRent);
         carParkDO.setGarageNumber(garageNumber);
         carParkDO.setEnterTime(System.currentTimeMillis() / 1000); //秒级别的
-        return carParkDao.saveGarageRelation(carParkDO);
+        return carParkDao.saveCarParkDO(carParkDO);
     }
 
 
     /**
-     * 根据number 删除GarageRelation对象
+     * 根据number 删除GarParkDO对象
      * @param number
      * @return
      */
-    public int deleteGarageRelation(String number){
-        return carParkDao.deleteGarageRelation(number);
+    public int deleteCarParkDOByNumber(String number){
+        return carParkDao.deleteCarParkDOByNumber(number);
     }
 
 
     /**
-     * 根据number 获取GarageRelation对象
+     * 根据number 获取GarParkDO对象
      * @param number
      * @return
      */
-    public CarParkDO getGarageRelation(String number){
-        return carParkDao.getGarageRelation(number);
+    public CarParkDO getGarParkDOByNumber(String number){
+        return carParkDao.getCarParkDOByNumber(number);
     }
 }
