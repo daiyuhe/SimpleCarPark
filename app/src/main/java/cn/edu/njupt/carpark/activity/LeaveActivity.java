@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import cn.edu.njupt.carpark.MainActivity;
 import cn.edu.njupt.carpark.R;
 import cn.edu.njupt.carpark.bean.User;
 import cn.edu.njupt.carpark.dao.GarageRelationDao;
@@ -14,31 +15,29 @@ import cn.edu.njupt.carpark.service.DistributionGarageIdService;
 
 
 public class LeaveActivity extends AppCompatActivity implements View.OnClickListener {
-    private String CarNum;      //车牌
-    private String CarUser;     //车主
-    private int PlaceNum;    //车库号
+    private int garageId;    //车库号
     private long time;        //总时间
     private long cost;           //费用
-    private Button LeaveBt;
-    private TextView CarNumTextView;
-    private TextView CarUserTextView;
-    private TextView PlaceNumTextView;
-    private TextView TimeTextView;
-    private TextView CostTextView;
+    private Button leaveBtn;
+    private TextView plateNumberTextView;
+    private TextView usernameTextView;
+    private TextView garageIdTextView;
+    private TextView timeTextView;
+    private TextView costTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.leave);
+        setContentView(R.layout.activity_leave);
 
-        CarNumTextView = findViewById(R.id.CarNum);
-        CarUserTextView = findViewById(R.id.CarUser);
-        PlaceNumTextView = findViewById(R.id.PlaceNum);
-        TimeTextView = findViewById(R.id.Time);
-        CostTextView = findViewById(R.id.Cost);
-        LeaveBt = findViewById(R.id.Leave);
+        plateNumberTextView = findViewById(R.id.plate_number);
+        usernameTextView = findViewById(R.id.username);
+        garageIdTextView = findViewById(R.id.garage_id);
+        timeTextView = findViewById(R.id.park_time);
+        costTextView = findViewById(R.id.cost);
+        leaveBtn = findViewById(R.id.leave);
 
-        PlaceNum = getIntent().getIntExtra("garageId", 0);
+        garageId = getIntent().getIntExtra("garageId", 0);
         time = getIntent().getLongExtra("time", 0L);
         cost = getIntent().getLongExtra("cost", 0L);
         // 获取反序列化的user
@@ -47,18 +46,20 @@ public class LeaveActivity extends AppCompatActivity implements View.OnClickList
             cost = 0L;
         }
 
-        CarNumTextView.setText(user.getNumber());
-        CarUserTextView.setText(user.getUsername());
-
+        plateNumberTextView.setText(user.getNumber());
+        usernameTextView.setText(user.getUsername());
 
         leave(user.getNumber());
-        // CarNumTextView.setText(CarNum);
-        // CarUserTextView.setText(CarUser);
-        PlaceNumTextView.setText(PlaceNum + "");
-        TimeTextView.setText(time + "小时");
-        CostTextView.setText(cost + "元");
+        garageIdTextView.setText(garageId + "");
+        timeTextView.setText(time + "小时");
+        long day = 30 - (System.currentTimeMillis() - user.getMonthRentStartTime()) / 1000 / 60 / 60 / 24 + 1;
+        if (user.getMonthRent()) {
+            costTextView.setText("月租剩余:" + day + "天");
+        } else {
+            costTextView.setText(cost + "元");
+        }
 
-        LeaveBt.setOnClickListener(this);
+        leaveBtn.setOnClickListener(this);
     }
 
     // 出库 删除数据库相关信息
@@ -68,7 +69,7 @@ public class LeaveActivity extends AppCompatActivity implements View.OnClickList
         //删除关联表相关信息
         garageRelationDao.deleteGarageRelation(CarNum);
         //维护set集合
-        distributionGarageIdService.outGarageId(PlaceNum);
+        distributionGarageIdService.outGarageId(garageId);
 
     }
 

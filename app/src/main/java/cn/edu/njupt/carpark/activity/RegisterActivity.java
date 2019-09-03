@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import cn.edu.njupt.carpark.R;
 
-public class EnterActivity extends AppCompatActivity implements View.OnClickListener {
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
     private String CarNum;      //车牌
     private String CarUser;     //车主
     private Button Enter;
@@ -20,10 +20,10 @@ public class EnterActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.enter);
+        setContentView(R.layout.activity_register);
 
-        CarNumTextView=findViewById(R.id.CarNum);
-        CarUserEditText=findViewById(R.id.CarUser);
+        CarNumTextView=findViewById(R.id.plate_number);
+        CarUserEditText=findViewById(R.id.username);
         Enter=findViewById(R.id.Enter);
         CarNum=getIntent().getStringExtra("CarNum");
         CarNumTextView.setText(CarNum);
@@ -33,7 +33,7 @@ public class EnterActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         CarUser=CarUserEditText.getText().toString();
-        Intent intent = new Intent(EnterActivity.this, ChooseActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, ChooseActivity.class);
         intent.putExtra("CarNum", CarNum);
         intent.putExtra("carUser", CarUser);
         startActivity(intent);

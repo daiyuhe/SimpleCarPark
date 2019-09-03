@@ -33,7 +33,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import cn.edu.njupt.carpark.activity.ChooseActivity;
-import cn.edu.njupt.carpark.activity.EnterActivity;
+import cn.edu.njupt.carpark.activity.RegisterActivity;
 import cn.edu.njupt.carpark.activity.LeaveActivity;
 import cn.edu.njupt.carpark.bean.GarageRelation;
 import cn.edu.njupt.carpark.bean.User;
@@ -49,9 +49,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static UserService userService = new UserService();
     private static DistributionGarageIdService distributionGarageIdService = new DistributionGarageIdService();
 
-    private int ParkingNumber; //车库可用的车位
-    private TextView ParkingNum;
-    private Button ScanButton;
+    private int parkingSpace; //车库可用的车位
+    private TextView garageId;
+    private Button scanBtn;
     private Button choosePhoto;
     private ImageView picture;
 
@@ -70,13 +70,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         LitePal.initialize(this);
         setContentView(R.layout.activity_main);
-        ParkingNum = findViewById(R.id.ParkingNum);
-        ScanButton = findViewById(R.id.ScanButton);
+        garageId = findViewById(R.id.garage_id);
+        scanBtn = findViewById(R.id.scan_btn);
         choosePhoto = findViewById(R.id.choose_from_album);
         picture = findViewById(R.id.iv_picture);
-        ParkingNumber = new DistributionGarageIdService().leaveGaragedIdNubers();
-        ParkingNum.setText(ParkingNumber + "");
-        ScanButton.setOnClickListener(this);
+        parkingSpace = new DistributionGarageIdService().leaveGaragedIdNubers();
+        garageId.setText(parkingSpace + "");
+        scanBtn.setOnClickListener(this);
         choosePhoto.setOnClickListener(this);
         getPermission();
     }
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //调用扫描识别车牌
     @Override
     public void onClick(View v) {
-        if (ParkingNumber <= 0) {
+        if (parkingSpace <= 0) {
             Toast.makeText(MainActivity.this, "暂无车位！", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 getPermission();
                 openAlbum();
                 break;
-            case R.id.ScanButton:
+            case R.id.scan_btn:
                 scan();
         }
     }
@@ -164,8 +164,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             picture.setImageBitmap(bm);
                             bm.compress(Bitmap.CompressFormat.PNG, 100, baos);    //注意压缩png和jpg的格式和质量
-                            int length = baos.toByteArray().length / 1024;
-                            System.out.println("--------- " + length);
                             imagedata = baos.toByteArray();
                         }
                         new Thread(networkTask).start();
@@ -261,9 +259,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         float scaleHeight = ((float) newHeight) / height;
         // 缩放图片动作
         matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap bitmap = Bitmap.createBitmap(bgimage, 0, 0, (int) width,
+        return Bitmap.createBitmap(bgimage, 0, 0, (int) width,
                 (int) height, matrix, true);
-        return bitmap;
     }
 
     /**
@@ -329,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             User user = userService.getByNumber(plateNumber);
             if (null == user) {
                 // 注册流程
-                Intent intent = new Intent(MainActivity.this, EnterActivity.class);
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
                 intent.putExtra("CarNum", plateNumber);
                 startActivity(intent);
                 return;
@@ -345,7 +342,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // 直接进入
                 //添加关联表信息
                 garageRelationService.addGarageRelation(plateNumber, true, distributionGarageIdService.getGarageId());
-                Toast.makeText(MainActivity.this, "欢迎光临！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "月租用户，欢迎光临！", Toast.LENGTH_SHORT).show();
                 return;
             }
 
