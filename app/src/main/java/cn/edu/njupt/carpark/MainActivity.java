@@ -31,13 +31,14 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import cn.edu.njupt.carpark.activity.ChargePolicyActivity;
+import cn.edu.njupt.carpark.activity.EnterActivity;
 import cn.edu.njupt.carpark.activity.LeaveActivity;
 import cn.edu.njupt.carpark.activity.RegisterActivity;
 import cn.edu.njupt.carpark.entity.CarDO;
 import cn.edu.njupt.carpark.entity.CarParkDO;
-import cn.edu.njupt.carpark.service.ParkNumberService;
 import cn.edu.njupt.carpark.service.CarParkService;
 import cn.edu.njupt.carpark.service.CarService;
+import cn.edu.njupt.carpark.service.ParkNumberService;
 import cn.edu.njupt.carpark.utils.GetCarNumber;
 import cn.edu.njupt.carpark.utils.ImageHandler;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -280,8 +281,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 // 直接进入
                 //添加关联表信息
-                carParkService.saveCarParkDO(plateNumber, true, parkNumberService.getParkNumber());
-                Toast.makeText(MainActivity.this, "月租用户，欢迎光临！", Toast.LENGTH_SHORT).show();
+                int parkNumber = parkNumberService.getParkNumber();
+                carParkService.saveCarParkDO(plateNumber, true, parkNumber);
+                //跳到展示页面
+                Intent intent = new Intent(MainActivity.this, EnterActivity.class);
+                intent.putExtra("plateNumber" , plateNumber);
+                intent.putExtra("carUserName" , carDO.getUsername());
+                intent.putExtra("parkNumer" , parkNumber + "");
+                intent.putExtra("payType" , "月租");
+                startActivity(intent);
+//                Toast.makeText(MainActivity.this, "月租用户，欢迎光临！", Toast.LENGTH_SHORT).show();
                 return;
             }
 

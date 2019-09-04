@@ -26,6 +26,7 @@
         <activity android:name=".activity.ChargePolicyActivity"></activity>
         <activity android:name=".activity.RegisterActivity"></activity>
         <activity android:name=".activity.LeaveActivity"></activity>
+        <activity android:name=".activity.EnterActivity"></activity>
 
         <provider
             android:authorities="cn.edu.njupt.carpark.fileprovider"
