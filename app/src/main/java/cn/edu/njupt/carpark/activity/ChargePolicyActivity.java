@@ -6,11 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import cn.edu.njupt.carpark.MainActivity;
 import cn.edu.njupt.carpark.R;
-import cn.edu.njupt.carpark.service.ParkNumberService;
 import cn.edu.njupt.carpark.service.CarParkService;
 import cn.edu.njupt.carpark.service.CarService;
+import cn.edu.njupt.carpark.service.ParkNumberService;
 
 
 public class ChargePolicyActivity extends AppCompatActivity implements View.OnClickListener {
@@ -41,25 +40,35 @@ public class ChargePolicyActivity extends AppCompatActivity implements View.OnCl
     //点击包月或者按次计费之后跳到主页
     @Override
     public void onClick(View v) {
+        int parkNumber = 0;
+        String payType = "";
         switch (v.getId()) {
             case R.id.Month:
-                registerAndEnter(true);
-                Intent intent1 = new Intent(ChargePolicyActivity.this, MainActivity.class);
-                startActivity(intent1);
+                parkNumber = registerAndEnter(true);
+                payType = "月租";
                 break;
             case R.id.Hour:
-                registerAndEnter(false);
-                Intent intent2 = new Intent(ChargePolicyActivity.this, MainActivity.class);
-                startActivity(intent2);
+                parkNumber = registerAndEnter(false);
+                payType = "按时计费";
                 break;
         }
+        //跳到展示页面
+        Intent intent = new Intent(ChargePolicyActivity.this, EnterActivity.class);
+        intent.putExtra("plateNumber" , plateNumber);
+        intent.putExtra("carUserName" , username);
+        intent.putExtra("parkNumer" , parkNumber + "");
+        intent.putExtra("payType" , payType);
+        startActivity(intent);
+
     }
 
-    private void registerAndEnter(boolean isMonthRent) {
+    private int registerAndEnter(boolean isMonthRent) {
         carService.saveOrUpdate(plateNumber, username, isMonthRent);
 
         //添加车库关联信息
-        int garageId = parkNumberService.getParkNumber();
-        carParkService.saveCarParkDO(plateNumber, isMonthRent, garageId);
+        int parkNumber = parkNumberService.getParkNumber();
+        carParkService.saveCarParkDO(plateNumber, isMonthRent, parkNumber);
+
+        return parkNumber;
     }
 }
