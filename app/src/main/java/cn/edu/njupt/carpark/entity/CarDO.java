@@ -7,14 +7,14 @@ import java.io.Serializable;
 
 public class CarDO extends LitePalSupport implements Serializable {
     @Column(nullable = false)
-    private String number;
+    private String number; // 车牌号
 
-    private String username;
+    private String username; // 用户名
 
     @Column(nullable = false)
-    private Boolean isMonthRent;
+    private Boolean isMonthRent; // 是否月租
 
-    private Long monthRentStartTime;
+    private Long monthRentStartTime; // 月租开始时间
 
     public String getNumber() {
         return number;

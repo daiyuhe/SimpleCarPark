@@ -13,7 +13,7 @@ import java.net.URL;
  */
 public class GetCarNumber {
 
-    private static final String ACCESS_TOKEN = "24.ebc4ec177b342fbf657635e94d6a8dfa.2592000.1569507323.282335-17116444";
+    private static final String ACCESS_TOKEN = "";
     private static final String POST_URL = "https://aip.baidubce.com/rest/2.0/ocr/v1/license_plate?access_token="+ACCESS_TOKEN;
 
     /**

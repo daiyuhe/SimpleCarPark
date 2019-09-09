@@ -12,7 +12,7 @@ import java.util.Map;
 
 /**
  * 获取token类
- * 24.ebc4ec177b342fbf657635e94d6a8dfa.2592000.1569507323.282335-17116444 有效器30天
+ * 有效期30天
  */
 public class GetAccessToken {
 

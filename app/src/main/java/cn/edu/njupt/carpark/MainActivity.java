@@ -290,7 +290,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intent.putExtra("parkNumer" , parkNumber + "");
                 intent.putExtra("payType" , "月租");
                 startActivity(intent);
-//                Toast.makeText(MainActivity.this, "月租用户，欢迎光临！", Toast.LENGTH_SHORT).show();
                 return;
             }
 
